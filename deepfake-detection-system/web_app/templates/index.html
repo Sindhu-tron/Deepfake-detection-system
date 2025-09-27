@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deepfake Detection System</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            padding: 40px;
+        }
+        
+        .upload-area {
+            border: 3px dashed #667eea;
+            border-radius: 10px;
+            padding: 40px;
+            text-align: center;
+            background: #f8f9ff;
+            margin-bottom: 30px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .upload-area:hover {
+            border-color: #764ba2;
+            background: #f0f2ff;
+        }
+        
+        .upload-area.dragover {
+            border-color: #764ba2;
+            background: #e8ebff;
+            transform: scale(1.02);
+        }
+        
+        .upload-icon {
+            font-size: 4em;
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        
+        .upload-text {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .file-input {
+            display: none;
+        }
+        
+        .upload-button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .upload-button:hover {
+            transform: translateY(-2px);
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #667eea;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .results {
+            display: none;
+            margin-top: 30px;
+        }
+        
+        .result-card {
+            background: #f8f9ff;
+            border-radius: 10px;
+            padding: 30px;
+            border-left: 5px solid #667eea;
+        }
+        
+        .result-image {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .result-image img {
+            max-width: 300px;
+            max-height: 300px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .prediction {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+        }
+        
+        .prediction.real {
+            color: #27ae60;
+        }
+        
+        .prediction.fake {
+            color: #e74c3c;
+        }
+        
+        .confidence {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .confidence-bar {
+            width: 100%;
+            height: 20px;
+            background: #eee;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        .confidence-fill.real {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+        }
+        
+        .confidence-fill.fake {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+        }
+        
+        .error {
+            background: #ffe6e6;
+            color: #c0392b;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 5px solid #e74c3c;
+        }
+        
+        .try-again {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .try-again button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Deepfake Detection</h1>
+            <p>Upload an image to detect if it's real or artificially generated</p>
+        </div>
+        
+        <div class="main-content">
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">📸</div>
+                    <div class="upload-text">
+                        Drag and drop an image here, or click to select
+                    </div>
+                    <button class="upload-button" onclick="document.getElementById('fileInput').click()">
+                        Choose Image
+                    </button>
+                    <input type="file" id="fileInput" class="file-input" accept="image/*">
+                </div>
+            </div>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing image for deepfake patterns...</p>
+            </div>
+            
+            <div class="results" id="results">
+                <div class="result-card">
+                    <div class="result-image" id="resultImage"></div>
+                    
+                    <div class="prediction" id="prediction"></div>
+                    
+                    <div class="confidence">
+                        <h3>Confidence Score</h3>
+                        <div class="confidence-bar">
+                            <div class="confidence-fill" id="confidenceFill"></div>
+                        </div>
+                        <div id="confidenceText"></div>
+                        
+                        <div style="margin-top: 15px;">
+                            <div>Real Probability: <span id="realProb"></span></div>
+                            <div>Fake Probability: <span id="fakeProb"></span></div>
+                        </div>
+                    </div>
+                    
+                    <div class="try-again">
+                        <button onclick="resetInterface()">Analyze Another Image</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="error" id="error" style="display: none;">
+                <strong>Error:</strong> <span id="errorMessage"></span>
+                <div class="try-again">
+                    <button onclick="resetInterface()">Try Again</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const uploadArea = document.getElementById('uploadArea');
+        const fileInput = document.getElementById('fileInput');
+        const loading = document.getElementById('loading');
+        const results = document.getElementById('results');
+        const error = document.getElementById('error');
+
+        // Drag and drop functionality
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.classList.add('dragover');
+        });
+
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.classList.remove('dragover');
+        });
+
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.classList.remove('dragover');
+            const files = e.dataTransfer.files;
+            if (files.length > 0) {
+                handleFile(files[0]);
+            }
+        });
+
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFile(e.target.files[0]);
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                showError('Please select an image file.');
+                return;
+            }
+
+            if (file.size > 16 * 1024 * 1024) {
+                showError('File size must be less than 16MB.');
+                return;
+            }
+
+            uploadImage(file);
+        }
+
+        function uploadImage(file) {
+            // Hide previous results
+            results.style.display = 'none';
+            error.style.display = 'none';
+            
+            // Show loading
+            loading.style.display = 'block';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            fetch('/upload', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                loading.style.display = 'none';
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    showResults(data);
+                }
+            })
+            .catch(err => {
+                loading.style.display = 'none';
+                showError('Network error. Please try again.');
+            });
+        }
+
+        function showResults(data) {
+            // Display image
+            document.getElementById('resultImage').innerHTML = 
+                `<img src="data:image/jpeg;base64,${data.image}" alt="Uploaded image">`;
+
+            // Display prediction
+            const prediction = document.getElementById('prediction');
+            prediction.textContent = `Prediction: ${data.class.toUpperCase()}`;
+            prediction.className = `prediction ${data.class}`;
+
+            // Display confidence
+            const confidenceFill = document.getElementById('confidenceFill');
+            confidenceFill.style.width = `${data.confidence * 100}%`;
+            confidenceFill.className = `confidence-fill ${data.class}`;
+
+            document.getElementById('confidenceText').textContent = 
+                `${(data.confidence * 100).toFixed(1)}% confident`;
+            
+            document.getElementById('realProb').textContent = 
+                `${(data.real_probability * 100).toFixed(1)}%`;
+            
+            document.getElementById('fakeProb').textContent = 
+                `${(data.fake_probability * 100).toFixed(1)}%`;
+
+            results.style.display = 'block';
+        }
+
+        function showError(message) {
+            document.getElementById('errorMessage').textContent = message;
+            error.style.display = 'block';
+        }
+
+        function resetInterface() {
+            results.style.display = 'none';
+            error.style.display = 'none';
+            loading.style.display = 'none';
+            fileInput.value = '';
+        }
+    </script>
+</body>
+</html>

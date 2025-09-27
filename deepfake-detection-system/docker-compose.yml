@@ -1,0 +1,75 @@
+
+services:
+  # PostgreSQL Database
+  postgres:
+    image: postgres:15-alpine
+    container_name: deepfake_db
+    environment:
+      POSTGRES_DB: deepfake_detection
+      POSTGRES_USER: deepfake_user
+      POSTGRES_PASSWORD: secure_password_123
+      POSTGRES_HOST_AUTH_METHOD: trust
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - deepfake_network
+    restart: unless-stopped
+
+  # Redis for Caching
+  redis:
+    image: redis:7-alpine
+    container_name: deepfake_redis
+    ports:
+      - "6379:6379"
+    networks:
+      - deepfake_network
+    restart: unless-stopped
+
+  # Main API Service
+  api:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.api
+    container_name: deepfake_api
+    environment:
+      - DATABASE_URL=postgresql://deepfake_user:secure_password_123@postgres:5432/deepfake_detection
+      - REDIS_URL=redis://redis:6379/0
+      - MODEL_PATH=/app/models/best_model.h5
+      - FLASK_ENV=production
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./training_outputs/models:/app/models:ro
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - deepfake_network
+    restart: unless-stopped
+
+  # Web Application
+  webapp:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.webapp
+    container_name: deepfake_webapp
+    environment:
+      - API_URL=http://api:5001
+      - FLASK_ENV=production
+    ports:
+      - "5000:5000"
+    depends_on:
+      - api
+    networks:
+      - deepfake_network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  deepfake_network:
+    driver: bridge

@@ -1,0 +1,96 @@
+{
+  "benchmark_info": {
+    "timestamp": "2025-09-04T18:01:11.724471",
+    "duration_seconds": 5.230802
+  },
+  "system_info": {
+    "cpu_count": 10,
+    "cpu_freq": {
+      "current": 4,
+      "min": 0,
+      "max": 4
+    },
+    "memory_total_gb": 16.0,
+    "memory_available_gb": 3.0784454345703125,
+    "platform": "darwin",
+    "tensorflow_version": "2.13.0",
+    "gpu_available": false
+  },
+  "inference_performance": {
+    "1": {
+      "batch_size": 1,
+      "average_time_seconds": 0.020385336875915528,
+      "std_time_seconds": 0.0005751616646250729,
+      "min_time_seconds": 0.019691944122314453,
+      "max_time_seconds": 0.02194499969482422,
+      "images_per_second": 49.05486752987931,
+      "ms_per_image": 20.385336875915527,
+      "average_memory_usage_mb": 0.015625
+    },
+    "4": {
+      "batch_size": 4,
+      "average_time_seconds": 0.03239903450012207,
+      "std_time_seconds": 0.0007527140989351391,
+      "min_time_seconds": 0.03163576126098633,
+      "max_time_seconds": 0.03458285331726074,
+      "images_per_second": 123.46046916876271,
+      "ms_per_image": 8.099758625030518,
+      "average_memory_usage_mb": -1.91015625
+    },
+    "8": {
+      "batch_size": 8,
+      "average_time_seconds": 0.046731531620025635,
+      "std_time_seconds": 0.0007778704859489588,
+      "min_time_seconds": 0.0456852912902832,
+      "max_time_seconds": 0.048471927642822266,
+      "images_per_second": 171.1906227479991,
+      "ms_per_image": 5.841441452503204,
+      "average_memory_usage_mb": -5.09453125
+    },
+    "16": {
+      "batch_size": 16,
+      "average_time_seconds": 0.07680448293685913,
+      "std_time_seconds": 0.0013007931721834673,
+      "min_time_seconds": 0.07504081726074219,
+      "max_time_seconds": 0.07954192161560059,
+      "images_per_second": 208.32117329861566,
+      "ms_per_image": 4.800280183553696,
+      "average_memory_usage_mb": -3.171875
+    }
+  },
+  "preprocessing_performance": {
+    "average_preprocessing_time_ms": 0.5935764312744141,
+    "preprocessing_images_per_second": 1684.7030092704167,
+    "min_time_ms": 0.5114078521728516,
+    "max_time_ms": 0.7879734039306641
+  },
+  "memory_usage": {
+    "initial_memory_mb": 4914.75,
+    "batch_memory_usage": {
+      "1": {
+        "memory_before_mb": 4914.75,
+        "memory_after_mb": 4914.75,
+        "memory_increase_mb": 0.0,
+        "memory_per_image_mb": 0.0
+      },
+      "4": {
+        "memory_before_mb": 4914.75,
+        "memory_after_mb": 4914.75,
+        "memory_increase_mb": 0.0,
+        "memory_per_image_mb": 0.0
+      },
+      "16": {
+        "memory_before_mb": 4914.75,
+        "memory_after_mb": 4914.75,
+        "memory_increase_mb": 0.0,
+        "memory_per_image_mb": 0.0
+      },
+      "64": {
+        "memory_before_mb": 4914.75,
+        "memory_after_mb": 4758.46875,
+        "memory_increase_mb": -156.28125,
+        "memory_per_image_mb": -2.44189453125
+      }
+    }
+  }
+}

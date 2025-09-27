@@ -1,0 +1,15 @@
+## Data Leakage Discovery & Fix
+
+### Problem Identified:
+- Initial results showed 97% accuracy with perfect AUC (1.0)
+- Discovered data leakage: train/val/test splits contained augmented versions of same base images
+- Model memorized specific synthetic faces rather than learning real vs fake patterns
+
+### Solution Implemented:
+- Split data at video level before augmentation
+- Ensured no shared source material between train/val/test
+- Retrained model with proper methodology
+
+### Results:
+- More realistic 68% accuracy 
+- Demonstrates understanding of proper ML validation

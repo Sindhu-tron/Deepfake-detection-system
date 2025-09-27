@@ -1,0 +1,11 @@
+{
+  "build": {
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "docker/Dockerfile.api"
+  },
+  "deploy": {
+    "numReplicas": 1,
+    "sleepApplication": false,
+    "restartPolicyType": "ALWAYS"
+  }
+}

@@ -1,0 +1,30 @@
+[
+  {
+    "timestamp": "2025-09-05T18:17:17.917880",
+    "type": "test_error",
+    "message": "This is a test error",
+    "context": {
+      "test": true
+    }
+  },
+  {
+    "timestamp": "2025-09-05T18:17:17.918024",
+    "type": "api_error",
+    "message": "API test error",
+    "context": {}
+  },
+  {
+    "timestamp": "2025-09-17T07:05:41.272602",
+    "type": "test_error",
+    "message": "This is a test error",
+    "context": {
+      "test": true
+    }
+  },
+  {
+    "timestamp": "2025-09-17T07:05:41.272797",
+    "type": "api_error",
+    "message": "API test error",
+    "context": {}
+  }
+]

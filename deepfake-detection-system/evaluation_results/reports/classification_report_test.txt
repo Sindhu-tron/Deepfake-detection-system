@@ -1,0 +1,8 @@
+              precision    recall  f1-score   support
+
+        fake       0.88      0.27      0.42        55
+        real       0.57      0.96      0.72        55
+
+    accuracy                           0.62       110
+   macro avg       0.73      0.62      0.57       110
+weighted avg       0.73      0.62      0.57       110

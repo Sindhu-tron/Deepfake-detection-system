@@ -1,0 +1,85 @@
+{
+  "project_info": {
+    "name": "Deepfake Detection System",
+    "version": "1.0.0",
+    "created": "2025-09-04T16:22:55.996286",
+    "description": "Complete preprocessing pipeline for deepfake detection"
+  },
+  "dataset": {
+    "name": "custom_deepfake_dataset",
+    "num_classes": 2,
+    "class_names": [
+      "real",
+      "fake"
+    ],
+    "image_dimensions": [
+      224,
+      224,
+      3
+    ],
+    "statistics": {
+      "train": {
+        "real": 251,
+        "fake": 251,
+        "total": 502
+      },
+      "val": {
+        "real": 54,
+        "fake": 54,
+        "total": 108
+      },
+      "test": {
+        "real": 55,
+        "fake": 55,
+        "total": 110
+      }
+    }
+  },
+  "preprocessing_pipeline": {
+    "face_extraction": {
+      "method": "opencv_haar_cascade",
+      "target_size": [
+        224,
+        224
+      ],
+      "padding": 0.3
+    },
+    "data_augmentation": {
+      "applied": true,
+      "methods": [
+        "horizontal_flip",
+        "brightness",
+        "contrast",
+        "rotation"
+      ]
+    },
+    "quality_filtering": {
+      "applied": false,
+      "note": "Basic quality checks performed during loading"
+    }
+  },
+  "file_paths": {
+    "train_dir": "data/processed/train_ready/train",
+    "val_dir": "data/processed/train_ready/val",
+    "test_dir": "data/processed/train_ready/test"
+  },
+  "training_config": {
+    "batch_size": 32,
+    "image_size": [
+      224,
+      224
+    ],
+    "normalization": {
+      "mean": [
+        0.485,
+        0.456,
+        0.406
+      ],
+      "std": [
+        0.229,
+        0.224,
+        0.225
+      ]
+    }
+  }
+}

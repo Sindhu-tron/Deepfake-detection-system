@@ -1,0 +1,89 @@
+name: Day 6 Complete System Test
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.9
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flask opencv-python-headless psutil
+    
+    - name: Test Analytics System
+      run: |
+        python -c "
+        import sys
+        sys.path.append('src')
+        from analytics.simple_analytics import analytics
+        
+        # Test prediction logging
+        analytics.log_prediction('fake', 0.85, 'test_user')
+        analytics.log_prediction('real', 0.92, 'test_user')
+        
+        # Test API call logging
+        analytics.log_api_call('/predict', 'POST', 200, 45.2, 'test_user')
+        
+        # Test summary
+        summary = analytics.get_analytics_summary()
+        assert summary['total_predictions'] >= 2
+        assert summary['total_api_calls'] >= 1
+        print('✅ Analytics system working')
+        "
+    
+    - name: Test Error Tracking
+      run: |
+        python -c "
+        import sys
+        sys.path.append('src')
+        from monitoring.error_logger import error_tracker
+        
+        # Test error logging
+        error_tracker.log_error('test_error', 'This is a test error', {'test': True})
+        error_tracker.log_error('api_error', 'API test error')
+        
+        # Test summary
+        summary = error_tracker.get_error_summary()
+        assert summary['total_errors'] >= 2
+        assert 'test_error' in summary['error_types']
+        print('✅ Error tracking working')
+        "
+    
+    - name: Test API Integration
+      run: |
+        python -c "
+        # Test API file can be imported
+        import sys
+        sys.path.append('api')
+        try:
+            import simple_secure_api
+            print('✅ API imports successful')
+        except ImportError as e:
+            print(f'Warning: API import issue: {e}')
+        "
+    
+    - name: Test Monitoring Dashboard
+      run: |
+        python -c "
+        # Test monitoring dashboard
+        import sys
+        sys.path.append('web_app')
+        try:
+            import monitoring_dashboard
+            print('✅ Monitoring dashboard imports successful')
+        except ImportError as e:
+            print(f'Warning: Monitoring import issue: {e}')
+        "

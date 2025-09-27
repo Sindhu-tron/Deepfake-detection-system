@@ -1,0 +1,8 @@
+{
+  "note": "Fixed data splits - no data leakage",
+  "file_paths": {
+    "train_dir": "data/processed/fixed_splits/train",
+    "val_dir": "data/processed/fixed_splits/val",
+    "test_dir": "data/processed/fixed_splits/test"
+  }
+}

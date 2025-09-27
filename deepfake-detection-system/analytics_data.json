@@ -1,0 +1,47 @@
+{
+  "predictions": [
+    {
+      "timestamp": "2025-09-05T18:17:17.917040",
+      "prediction_class": "fake",
+      "confidence": 0.85,
+      "user_id": "test_user"
+    },
+    {
+      "timestamp": "2025-09-05T18:17:17.917284",
+      "prediction_class": "real",
+      "confidence": 0.92,
+      "user_id": "test_user"
+    },
+    {
+      "timestamp": "2025-09-17T07:05:41.271006",
+      "prediction_class": "fake",
+      "confidence": 0.85,
+      "user_id": "test_user"
+    },
+    {
+      "timestamp": "2025-09-17T07:05:41.271601",
+      "prediction_class": "real",
+      "confidence": 0.92,
+      "user_id": "test_user"
+    }
+  ],
+  "api_usage": [
+    {
+      "timestamp": "2025-09-05T18:17:17.917364",
+      "endpoint": "/predict",
+      "method": "POST",
+      "status_code": 200,
+      "response_time_ms": 45.2,
+      "user_id": "test_user"
+    },
+    {
+      "timestamp": "2025-09-17T07:05:41.271679",
+      "endpoint": "/predict",
+      "method": "POST",
+      "status_code": 200,
+      "response_time_ms": 45.2,
+      "user_id": "test_user"
+    }
+  ],
+  "created_at": "2025-09-05T18:17:17.916689"
+}

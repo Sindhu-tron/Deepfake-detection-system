@@ -1,0 +1,18 @@
+{
+  "predictions": [
+    {
+      "timestamp": "2025-09-05T17:49:37.095874",
+      "prediction_class": "fake",
+      "confidence": 0.87,
+      "user_id": "test_user"
+    },
+    {
+      "timestamp": "2025-09-05T17:49:37.096018",
+      "prediction_class": "real",
+      "confidence": 0.91,
+      "user_id": "test_user"
+    }
+  ],
+  "api_usage": [],
+  "created_at": "2025-09-05T17:49:37.095615"
+}

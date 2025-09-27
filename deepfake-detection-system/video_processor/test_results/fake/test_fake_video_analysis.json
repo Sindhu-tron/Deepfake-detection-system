@@ -1,0 +1,49 @@
+{
+  "video_info": {
+    "filename": "test_fake_video.mp4",
+    "path": "test_videos/test_fake_video.mp4",
+    "duration_seconds": 5.0,
+    "fps": 15.0,
+    "total_frames": 75,
+    "resolution": "640x480"
+  },
+  "analysis_summary": {
+    "frames_analyzed": 15,
+    "frame_skip_interval": 5,
+    "total_faces_detected": 15,
+    "deepfake_frames": 15,
+    "deepfake_percentage": 100.0,
+    "average_fake_probability": 0.49781139294306437,
+    "classification": {
+      "class": "suspicious",
+      "confidence": 0.8999999999999999,
+      "reasoning": {
+        "deepfake_frame_percentage": 100.0,
+        "average_fake_probability": 0.49781139294306437,
+        "deepfake_frames": 15,
+        "total_frames": 15
+      }
+    },
+    "confidence": 0.8999999999999999
+  },
+  "frame_results": [
+    {
+      "faces_detected": 1,
+      "predictions": [
+        {
+          "face_index": 0,
+          "bbox": [
+            194,
+            131,
+            256,
+            256
+          ],
+          "class": "real",
+          "confidence": 0.5021529197692871,
+          "fake_probability": 0.49784713983535767,
+          "real_probability": 0.5021529197692871
+        }
+      ],
+      "average_fake_probability": 0.49784713983535767,
+      "max_fake_probability": 0.49784713983535767,
+      "deepfake_detected": 
