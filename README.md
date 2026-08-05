@@ -95,7 +95,3 @@ Sindhuja Dantuluri — [LinkedIn](https://www.linkedin.com/in/SindhujaDantuluri/
 ## Licence
  
 MIT
-
-
-The confidence scoring system provides probability breakdowns that help users interpret results. For example, a prediction might show 54.9% fake probability vs. 45.1% real probability, indicating uncertainty rather than false confidence.
-While the accuracy could be improved with more sophisticated architectures or larger datasets, the current system successfully demonstrates the complete machine learning pipeline from data collection through deployment, achieving the educational goals of building a production-ready application that addresses a real-world problem. 
